@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ghost
+  name: ghost
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ghost
+  template:
+    metadata:
+      labels:
+        app: ghost
+    spec:
+      containers:
+      - image: ghost:4-alpine
+        name: ghost
+        ports:
+        - containerPort: 2368
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ghost
+spec:
+  ports:
+  - port: 2368
+    protocol: TCP
+    targetPort: 2368
+  selector:
+    app: ghost
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ghost
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`ghost.joshlab.home`)
+      kind: Rule
+      services:
+        - name: ghost
+          port: 2368
+  tls:
+    certResolver: letsencrypt
