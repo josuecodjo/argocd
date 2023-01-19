@@ -86,7 +86,7 @@ spec:
           name: flask
         volumeMounts:
         - name: flask-persistent-storage
-          mountPath: /opt/app
+          mountPath: /tmp
       volumes:
       - name: flask-persistent-storage
         persistentVolumeClaim:
