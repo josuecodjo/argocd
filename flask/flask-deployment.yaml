@@ -67,7 +67,8 @@ spec:
         imagePullPolicy: Always
         name: flask
         command: ["/bin/bash"]
-        args: ["-c","/opt/app/start_app.sh"]
+        args: ["-c","ls","/opt/app/"]
+        #args: ["-c","/opt/app/start_app.sh"]
         env:
         - name: DBNAME
           value: restaurant
