@@ -63,11 +63,11 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: josuecodjo/flask_app:kube
+      - image: josuecodjo/flask_app
         imagePullPolicy: Always
         name: flask
-        command: ["/bin/bash"]
-        args: ["-c","while sleep 0.01; do echo 'OK'; done"]
+        # command: ["/bin/bash"]
+        # args: ["-c","while sleep 0.01; do echo 'OK'; done"]
         #args: ["-c","/opt/app/start_app.sh"]
         env:
         - name: DBNAME
