@@ -63,16 +63,20 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: josuecodjo/flask_app:86_64
+      - image: josuecodjo/flask_app
         name: flask
         env:
-        - name: WORDPRESS_DB_HOST
-          value: wordpress-mysql
-        - name: WORDPRESS_DB_PASSWORD
+        - name: DBNAME
+          value: restaurant
+        - name: DBHOST
+          value: flask-postgresql
+        - name: DBPASS
           valueFrom:
             secretKeyRef:
-              name: mysql-pass
+              name: postgresql-pass
               key: password
+        - name: DBUSER
+          value: root
         ports:
         - containerPort: 30100
           name: flask
