@@ -64,7 +64,10 @@ spec:
     spec:
       containers:
       - image: josuecodjo/flask_app
+        imagePullPolicy: Always
         name: flask
+        command: ["/bin/bash"]
+        args: ["-c","/opt/app/start_app.sh"]
         env:
         - name: DBNAME
           value: restaurant
