@@ -1,0 +1,5 @@
+namePrefix: dev-
+resources:
+- namespace.yaml
+- ../base
+namespace: dev
