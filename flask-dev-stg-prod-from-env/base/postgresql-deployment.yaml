@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-postgresql
+  labels:
+    app: flask
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: flask
+    tier: postgresql
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresql-pv-claim
+  labels:
+    app: flask
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-postgresql
+  labels:
+    app: flask
+spec:
+  selector:
+    matchLabels:
+      app: flask
+      tier: postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: flask
+        tier: postgresql
+    spec:
+      containers:
+      - image: postgres:13
+        name: postgresql
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-pass
+              key: password
+        envFrom:
+        - configMapRef:
+            name: postgres
+        ports:
+        - containerPort: 5432
+          name: postgresql
+        volumeMounts:
+        - name: postgresql-persistent-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgresql-persistent-storage
+        persistentVolumeClaim:
+          claimName: postgresql-pv-claim

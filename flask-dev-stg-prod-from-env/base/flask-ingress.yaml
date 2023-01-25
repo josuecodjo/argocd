@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: flask
+  labels:
+    app: flask
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`flask.joshlab.home`)
+      kind: Rule
+      services:
+        - name: flask
+          port: 30100
+  tls:
+    certResolver: letsencrypt
