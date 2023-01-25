@@ -16,7 +16,7 @@ replicas:
 images:
 - name: josuecodjo/flask_app
   newTag: latest
-namePrefix: prod-
+# namePrefix: prod-
 configMapGenerator:
 - name: flask
   behavior: merge

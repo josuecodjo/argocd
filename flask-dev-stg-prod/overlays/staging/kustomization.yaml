@@ -10,7 +10,7 @@ patchesJson6902:
 commonLabels:
   app: staging-nginx
 namespace: staging
-namePrefix: staging-
+# namePrefix: staging-
 configMapGenerator:
 - name: flask
   behavior: merge

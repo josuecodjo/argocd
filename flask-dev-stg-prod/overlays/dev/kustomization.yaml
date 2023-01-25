@@ -10,7 +10,7 @@ patchesJson6902:
 commonLabels:
   app: dev-flask
 namespace: dev
-namePrefix: dev-
+# namePrefix: dev-
 configMapGenerator:
 - name: flask
   behavior: merge
