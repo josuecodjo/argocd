@@ -6,13 +6,13 @@ spec:
   containers:
     - name: test-container
       image: registry.k8s.io/busybox
-      command: [ "/bin/echo", "$(DB_HOST) $(DBNAME) $(DBUSER)" ]
+      command: [ "/bin/echo", "$(DBHOST) $(DBNAME) $(DBUSER)" ]
       env:
-        - name: DB_HOST
+        - name: DBHOST
           valueFrom:
             configMapKeyRef:
               name: flask-postgres
-              key: DB_HOST
+              key: DBHOST
         - name: DBNAME
           valueFrom:
             configMapKeyRef:

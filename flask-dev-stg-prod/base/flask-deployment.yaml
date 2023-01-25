@@ -62,11 +62,11 @@ spec:
             configMapKeyRef:
               name: flask-postgres
               key: DBNAME
-        - name: DB_HOST
+        - name: DBHOST
           valueFrom:
             configMapKeyRef:
               name: flask-postgres
-              key: DB_HOST
+              key: DBHOST
         - name: DBUSER
           valueFrom:
             configMapKeyRef:
