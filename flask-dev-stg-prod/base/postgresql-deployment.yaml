@@ -47,15 +47,22 @@ spec:
       containers:
       - image: postgres:13
         name: postgresql
-        envFrom:
-        - configMapRef:
-            name: postgresql
         env:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgresql-pass
               key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: flask-postgres
+              key: DBNAME
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: flask-postgres
+              key: DBUSER
         ports:
         - containerPort: 5432
           name: postgresql

@@ -5,4 +5,4 @@ data:
   DBUSER: root
 kind: ConfigMap
 metadata:
-  name: flask
+  name: flask-postgres

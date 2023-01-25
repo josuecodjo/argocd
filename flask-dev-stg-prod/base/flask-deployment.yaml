@@ -51,15 +51,27 @@ spec:
         # command: ["/bin/bash"]
         # args: ["-c","while sleep 0.01; do echo 'OK'; done"]
         #args: ["-c","/opt/app/start_app.sh"]
-        envFrom:
-        - configMapRef:
-            name: flask
         env:
         - name: DBPASS
           valueFrom:
             secretKeyRef:
               name: postgresql-pass
               key: password
+        - name: DBNAME
+          valueFrom:
+            configMapKeyRef:
+              name: flask-postgres
+              key: DBNAME
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: flask-postgres
+              key: DB_HOST
+        - name: DBUSER
+          valueFrom:
+            configMapKeyRef:
+              name: flask-postgres
+              key: DBUSER
         ports:
         - containerPort: 30100
           name: flask
