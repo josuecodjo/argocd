@@ -45,7 +45,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: php-apache
-  namespace: default
 spec:
   entryPoints:
     - websecure
