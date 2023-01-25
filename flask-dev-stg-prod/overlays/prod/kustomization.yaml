@@ -1,0 +1,24 @@
+resources:
+- ../../base
+patchesJson6902:
+- target:
+    group: traefik.containo.us
+    version: v1alpha1
+    kind: IngressRoute
+    name: flask
+  path: ingress_patch.yaml
+commonLabels:
+  app: prod-flask
+namespace: prod
+replicas:
+- name: flask
+  count: 2
+images:
+- name: josuecodjo/flask_app
+  newTag: latest
+namePrefix: prod-
+configMapGenerator:
+- name: flask
+  behavior: merge
+  literals:
+  - ENV=prod

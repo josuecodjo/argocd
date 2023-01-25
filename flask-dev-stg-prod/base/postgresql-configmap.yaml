@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  POSTGRES_DB: restaurant
+  POSTGRES_USER: root
+kind: ConfigMap
+metadata:
+  name: postgresql
