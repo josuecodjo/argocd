@@ -12,7 +12,7 @@ commonLabels:
 namespace: staging
 # namePrefix: staging-
 configMapGenerator:
-- name: flask
+- name: flask-postgres
   behavior: merge
   literals:
   - ENV=staging

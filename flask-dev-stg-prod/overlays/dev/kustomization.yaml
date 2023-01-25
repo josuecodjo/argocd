@@ -12,7 +12,7 @@ commonLabels:
 namespace: dev
 # namePrefix: dev-
 configMapGenerator:
-- name: flask
+- name: flask-postgres
   behavior: merge
   literals:
   - ENV=dev
