@@ -7,3 +7,4 @@ resources:
   - postgresql-deployment.yaml
   - flask-deployment.yaml
   - flask-ingress.yaml
+  - testconfigmap.yaml
