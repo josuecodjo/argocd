@@ -1,0 +1,18 @@
+resources:
+- ../../base
+patchesJson6902:
+- target:
+    group: traefik.containo.us
+    version: v1alpha1
+    kind: IngressRoute
+    name: flask
+  path: ingress_patch.yaml
+commonLabels:
+  app: staging-nginx
+namespace: staging
+# namePrefix: staging-
+configMapGenerator:
+- name: flask
+  behavior: merge
+  literals:
+  - ENV=staging

@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+  NODE_ENV: development  # production/staging
+  MODE: sofe:*
+  NODE_ORACLEDB_USER: sof
+  NODE_ORACLEDB_PASSWORD: sof
+  NODE_ORACLEDB_CONNECTIONSTRING: 'mercure.exagon.ca:1521/sofdevl'
+  NODE_ORACLEDB_POOLINCREMENT: 1
+  NODE_ORACLEDB_POOLMAX: 4
+  NODE_ORACLEDB_POOLMIN: 0
+  NODE_ORACLEDB_POOLPINGINTERVAL: 60
+  NODE_ORACLEDB_POOLTIMEOUT: 60
+  NODE_ORACLEDB_QUEUEMAX: 500
+  NODE_ORACLEDB_QUEUETIMEOUT: 60000
+  WEB_DAV_URL: http://mars.exagon.ca:8080/webdav_sofe_dev
+  WEB_DAV_USER: sofeadmin
+  WEB_DAV_PASSWD: Emmenezmoiauboutdelaterreen1968
+  WEB_API_PORT: 8080
+kind: ConfigMap
+metadata:
+  name: backend

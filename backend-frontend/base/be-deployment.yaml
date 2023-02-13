@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  labels:
+    app: sofe
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: sofe
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-pv-claim
+  labels:
+    app: sofe
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: sofe
+spec:
+  selector:
+    matchLabels:
+      app: sofe
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sofe
+        tier: backend
+    spec:
+      containers:
+      - image: josuecodjo/backend_app
+        imagePullPolicy: Always
+        name: backend
+        # command: ["/bin/bash"]
+        # args: ["-c","while sleep 0.01; do echo 'OK'; done"]
+        #args: ["-c","/opt/app/start_app.sh"]
+        env:
+        - name: DBPASS
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-pass
+              key: password
+        envFrom:
+        - configMapRef:
+            name: backend
+        ports:
+        - containerPort: 30100
+          name: backend
+        volumeMounts:
+        - name: backend-persistent-storage
+          mountPath: /tmp
+      volumes:
+      - name: backend-persistent-storage
+        persistentVolumeClaim:
+          claimName: backend-pv-claim

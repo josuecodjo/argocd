@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: befe-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: registry.k8s.io/busybox
+      command: [ "/bin/echo", "NODE_ENV: $(NODE_ENV); MODE: $(MODE); NODE_ORACLEDB_CONNECTIONSTRING: $(NODE_ORACLEDB_CONNECTIONSTRING); WEB_FE_PORT: $(WEB_FE_PORT)" ]
+      envFrom:
+      - configMapRef:
+          name: be
+      - configMapRef:
+          name: fe
+  restartPolicy: Never
