@@ -63,7 +63,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`monitor.sofe-kmaster-01.sofe.ca`)
+    - match: Host(`monitor.joshlab.home`)
       kind: Rule
       services:
         - name: uptime-kuma-service

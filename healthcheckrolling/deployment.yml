@@ -73,7 +73,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`httpd.sofe-kmaster-01.sofe.ca`)
+    - match: Host(`httpd.joshlab.home`)
       kind: Rule
       services:
         - name: httpd
