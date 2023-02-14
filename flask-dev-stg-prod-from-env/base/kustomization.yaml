@@ -1,8 +1,9 @@
-secretGenerator:
-- name: postgresql-pass
-  literals:
-  - password=josh
+# secretGenerator:
+# - name: postgresql-pass
+#   literals:
+#   - password=josh
 resources:
+  - sealed-secret-postgresql-pass.yaml
   - flask-configmap.yaml
   - postgresql-configmap.yaml
   - postgresql-deployment.yaml
