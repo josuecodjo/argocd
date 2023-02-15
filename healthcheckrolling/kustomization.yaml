@@ -1,5 +1,5 @@
 resources:
-  - kumaentry.yml
+  - kumaentry.yaml
   - sealed-kuma-pass.yaml
   - configmap.yaml
   - deployment.yml
