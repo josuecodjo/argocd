@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  KUMA_USER: admin
+  KUMA_URL: 'https://httpd.joshlab.home'
+  KUMA_TITLE: josh
+kind: ConfigMap
+metadata:
+  name: healthcheck

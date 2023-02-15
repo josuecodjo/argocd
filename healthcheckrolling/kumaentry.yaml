@@ -10,18 +10,22 @@ spec:
       args:
         - -c
         - |
-          export KUMA_USER=
-          export KUMA_PASSWD=
           pip install uptime-kuma-api==0.9.0
           echo "import os" |tee -a entry.py
           echo "from uptime_kuma_api import UptimeKumaApi, MonitorType" |tee -a entry.py
           echo "api = UptimeKumaApi('http://uptime-kuma-service.kuma:3001')" |tee -a entry.py
           echo "api.login(os.environ['KUMA_USER'], os.environ['KUMA_PASSWD'])" |tee -a entry.py
-          echo "result = api.add_monitor(type=MonitorType.HTTP, name='sofe-httpd', url='https://httpd.joshlab.home')" |tee -a entry.py
+          echo "result = api.add_monitor(type=MonitorType.HTTP, name=os.environ['KUMA_TITLE'], url=os.environ['KUMA_URL'])" |tee -a entry.py
           echo "print(result)" |tee -a entry.py
           echo "api.disconnect()" |tee -a entry.py
           python entry.py
-      # envFrom:
-      # - configMapRef:
-      #    name: flask
+      env:
+      - name: KUMA_PASSWD
+        valueFrom:
+          secretKeyRef:
+            name: kuma-pass
+            key: password
+      envFrom:
+      - configMapRef:
+         name: healthcheck
   restartPolicy: Never

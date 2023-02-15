@@ -1,0 +1,17 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  creationTimestamp: null
+  name: kuma-pass
+spec:
+  encryptedData:
+    password: AgCnpWTRxogi812+kX4JZh8IkhMxPagvKYcu1QDf8Y/gI4ZW30zjUgsTCl+toJeKISmpk2nqTzAc377AsXf7dlC8oSZXU+SnqD4BqXOmFBehL8fZyuillc+1z4ZSRVykTrbTl6dr17g3XbkoeDuzk91JzfTsHKs8a9UeKMZ8+1xb0FNDJuTCWn40xnNObA1Ggr1iwUlwWuyAToANvZ75s17tZb9mjHxc0u4MTJznRb6S7/qTe/1rgOxP5jctUb9adHKV6NBeBkEUCKbikWAPISK+L6gfE/N8QDQs/+Ke+ElFNC1hk6m7h8CaSasxqFp7XuPdbqcTUlxKSWtH4C/lkdCIeV4UutM3JErmIo9YA+tukGvisGuIugn0IvC+c8WTU3do6Yx7YQ6jXX8jyTp4OKKJCOzc6KXk2RAAIp0u9TWUWBURZ+wkDCGA8rejxC8OuKDwzWDkwZI7CdtrB/69opZWNWE1iaq39Ub/Nz5IIEwOfcQ1It7rEMT+fApm0Ns83spVS/iaR/DJHpQ4Qq3ItA+3XIBHhPlw+lgXLIikMzl27sEirOXclIACokIBfF6bXuzhMjCw0z7eCBO2sRJylH0SrUX3tuFpGgL5KqhqdUoJXZ4drPOY8tbCdlkqMx76m4Fu9+vz+ioxDbfRHCtcYm2D19TwtNaxY/1EQGFpjirzMnty2NcIqJrwLx+ki1pTw6L/oLoPyuSYunfOIA==
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      creationTimestamp: null
+      name: kuma-pass
+
