@@ -9,7 +9,7 @@ spec:
     - port: 5432
   selector:
     app: flask
-    tier: postgresql
+    tier: postgres
   clusterIP: None
 ---
 apiVersion: v1
@@ -35,14 +35,14 @@ spec:
   selector:
     matchLabels:
       app: flask
-      tier: postgresql
+      tier: postgres
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: flask
-        tier: postgresql
+        tier: postgres
     spec:
       containers:
       - image: postgres:13
