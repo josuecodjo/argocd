@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: semaphore
+  labels:
+    app: semaphore
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: semaphore
+    tier: frontend
+  type: ClusterIP
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: semaphore-pv-claim
+#   labels:
+#     app: semaphore
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: semaphore
+  labels:
+    app: semaphore
+spec:
+  selector:
+    matchLabels:
+      app: semaphore
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: semaphore
+        tier: frontend
+    spec:
+      containers:
+      - image: semaphoreui/semaphore:latest
+        imagePullPolicy: Always
+        name: semaphore
+        # command: ["/bin/bash"]
+        # args: ["-c","while sleep 0.01; do echo 'OK'; done"]
+        #args: ["-c","/opt/app/start_app.sh"]
+        envFrom:
+        - configMapRef:
+            name: semaphore
+        ports:
+        - containerPort: 3000
+          name: semaphore
+      #   volumeMounts:
+      #   - name: semaphore-persistent-storage
+      #     mountPath: /tmp
+      # volumes:
+      # - name: semaphore-persistent-storage
+      #   persistentVolumeClaim:
+      #     claimName: semaphore-pv-claim

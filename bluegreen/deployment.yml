@@ -1,0 +1,108 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: httpd
+spec:
+  strategy:
+    blueGreen: 
+      # activeService specifies the service to update with the new template hash at time of promotion.
+      # This field is mandatory for the blueGreen update strategy.    
+      activeService: httpd
+      # previewService specifies the service to update with the new template hash before promotion.
+      # This allows the preview stack to be reachable without serving production traffic.
+      # This field is optional.      
+      previewService: httpd-preview
+      # autoPromotionEnabled disables automated promotion of the new stack by pausing the rollout
+      # immediately before the promotion. If omitted, the default behavior is to promote the new
+      # stack as soon as the ReplicaSet are completely ready/available.
+      # Rollouts can be resumed using: `kubectl argo rollouts promote ROLLOUT`      
+      autoPromotionEnabled: false
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: httpd
+  replicas: 2 # tells deployment to run 1 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: httpd
+    spec:
+      containers:
+      - name: httpd
+        image: josuecodjo/httpd:1.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 200m
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80 #httpd-port
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80 #httpd-port
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/bash", "-c", "sleep 120"]
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd
+  labels:
+    app: httpd
+spec:
+  ports:
+  - name: httpd
+    port: 80
+    protocol: TCP
+  selector:
+    app: httpd
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-preview
+  labels:
+    app: httpd
+spec:
+  ports:
+  - name: httpd
+    port: 80
+    protocol: TCP
+  selector:
+    app: httpd
+  type: ClusterIP
+
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: httpd
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#     - match: Host(`httpd.joshlab.home`)
+#       kind: Rule
+#       services:
+#         - name: httpd
+#           port: 80
+#   tls:
+#     certResolver: letsencrypt

@@ -1,0 +1,95 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: uptime-kuma
+spec:
+  replicas: 1
+  serviceName: uptime-kuma-service
+  selector:
+    matchLabels:
+      app: uptime-kuma
+  template:
+    metadata:
+      labels:
+        app: uptime-kuma
+    spec:
+      containers:
+        - name: uptime-kuma
+          image: louislam/uptime-kuma:1.23.5
+          env:
+            - name: UPTIME_KUMA_PORT
+              value: "3001"
+            - name: PORT
+              value: "3001"
+          ports:
+            - name: uptime-kuma
+              containerPort: 3001
+              protocol: TCP
+  #         volumeMounts:
+  #           - name: kuma-data
+  #             mountPath: /app/data
+  # volumeClaimTemplates:
+  #   - metadata:
+  #       name: kuma-data
+  #     spec:
+  #       accessModes: ["ReadWriteOnce"]
+  #       volumeMode: Filesystem
+  #       resources:
+  #         requests:
+  #           storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uptime-kuma-service
+spec:
+  selector:
+    app: uptime-kuma
+  ports:
+  - name: uptime-kuma
+    port: 3001
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: uptime-kuma-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`kuma.softimiz-cloud.com`)
+      kind: Rule
+      services:
+        - name: uptime-kuma-service
+          port: 3001
+      middlewares:
+        - name: https-redirectscheme
+  tls:
+    secretName: kuma.softimiz-cloud.com
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-redirectscheme
+spec:
+  redirectScheme:
+    permanent: true
+    scheme: https
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kuma.softimiz-cloud.com
+spec:
+  dnsNames:
+    - kuma.softimiz-cloud.com
+  secretName: kuma.softimiz-cloud.com
+  commonName: kuma.softimiz-cloud.com
+  issuerRef:
+    name: cert-manager-issuer
+    kind: ClusterIssuer

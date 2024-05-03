@@ -1,0 +1,8 @@
+resources:
+  - sealed-secret-mysql-pass.yaml
+  - mysql-configmap.yaml
+  - mysql-deployment.yaml
+  - semaphore-deployment.yaml
+  - semaphore-ingress.yaml
+  - semaphore-configmap.yaml
+  - redirect-https.yaml

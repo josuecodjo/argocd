@@ -1,0 +1,34 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: semaphore
+  labels:
+    app: semaphore
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`semaphore.softimiz-cloud.com`)
+      kind: Rule
+      services:
+        - name: semaphore
+          port: 3000
+      middlewares:
+        - name: https-redirectscheme
+  tls:
+    secretName: semaphore.softimiz-cloud.com
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: semaphore.softimiz-cloud.com
+spec:
+  dnsNames:
+    - semaphore.softimiz-cloud.com
+  secretName: semaphore.softimiz-cloud.com
+  commonName: semaphore.softimiz-cloud.com
+  issuerRef:
+    name: cert-manager-issuer
+    kind: ClusterIssuer

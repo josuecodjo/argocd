@@ -1,0 +1,18 @@
+resources:
+- ../../base
+patchesJson6902:
+- target:
+    group: traefik.containo.us
+    version: v1alpha1
+    kind: IngressRoute
+    name: semaphore
+  path: ingress_patch.yaml
+commonLabels:
+  app: dev-semaphore
+# namespace: dev
+# namePrefix: dev-
+configMapGenerator:
+- name: semaphore
+  behavior: merge
+  literals:
+  - ENV=dev
